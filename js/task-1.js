@@ -1,24 +1,29 @@
-const inventory = {
-    items: ['Монорельса', 'Фильтр'],
-    add(itemName) {
-        this.items.push(itemName);
+const account = {
+    owner: "Mango",
+    balance: 24000,
+    discount: 0.1,
+    orders: ["order-1", "order-2", "order-3"],
+
+    changeDiscount(value) {
+        this.discount = value;
     },
-    remove(itemName) {
-        this.items = this.items.filter(item => item !== itemName);
+
+    getOrders() {
+        return this.orders;
     },
+
+    addOrder(cost, order) {
+        this.balance -= cost;
+        this.orders.push(order);
+    }
 };
 
-const invokeInventoryOperation = function (itemName, inventoryAction) {
-    console.log(`Invoking ${inventoryAction.name} opeartion on ${itemName}`);
-    inventoryAction.call(inventory, itemName);
-};
+account.changeDiscount(0.15);
+console.log(account.discount); // 0.15
 
-invokeInventoryOperation('Аптечка', inventory.add);
-// Invoking add opeartion on Аптечка
+const orders = account.getOrders();
+console.log(orders); // ['order-1', 'order-2', 'order-3']
 
-console.log(inventory.items); // ['Монорельса', 'Фильтр', 'Аптечка']
-
-invokeInventoryOperation('Фильтр', inventory.remove);
-// Invoking remove opeartion on Фильтр
-
-console.log(inventory.items); // ['Монорельса', 'Аптечка']
+account.addOrder(5000, "order-4");
+console.log(account.balance); // 19000
+console.log(account.orders); // ['order-1', 'order-2', 'order-3', 'order-4']
